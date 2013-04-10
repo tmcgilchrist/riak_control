@@ -65,7 +65,7 @@
 %% Public API
 %% ===================================================================
 
-
+-spec compile(rebar_config:config(), _) -> 'ok'.
 compile(Config, _AppFile) ->
     Options = options(Config),
     DocRoot = option(doc_root, Options),
@@ -74,6 +74,13 @@ compile(Config, _AppFile) ->
                 || Stylesheet <- Stylesheets],
     process(Targets, Options).
 
+-spec clean(rebar_config:config(), _) -> 'ok'.
+clean(_Config, _AppFile) ->
+    ok.
+
+%% ===================================================================
+%% Internal functions
+%% ===================================================================
 process([], _Options) ->
     ok;
 process(Targets, Options) ->
@@ -100,13 +107,6 @@ process(Targets, Options) ->
                 "Bypassing stylesheet processing of ~s: stylus missing.~n", [DocRoot]),
             ok
     end.
-
-clean(_Config, _AppFile) ->
-    ok.
-
-%% ===================================================================
-%% Internal functions
-%% ===================================================================
 
 options(Config) ->
     rebar_config:get_local(Config, js_stylus, []).
